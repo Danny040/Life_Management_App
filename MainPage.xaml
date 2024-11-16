@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:lifeManagementApp.ViewModels"
+             x:DataType="viewmodel:MainViewModel"
+             x:Class="lifeManagementApp.MainPage">
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Weather">
+            <MenuFlyoutItem Text="Weather" />
+        </MenuBarItem>
+        <MenuBarItem Text="To dos">
+            <MenuFlyoutItem Text="To Dos" />
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+            <!-- Weather Section -->
+            <Label Text="Weather today:" FontSize="32" HorizontalOptions="Center"/>
+            <Entry x:Name="CityEntry" Placeholder="Enter City Name" Margin="0,20,0,0"/>
+            <Button Text="Get Weather" Clicked="OnGetWeatherClicked" Margin="0,10,0,0"/>
+            <Label x:Name="TemperatureLabel" FontSize="24" TextColor="Black" Margin="0,10,0,0" />
+            
+            <!--To Dos Section-->
+            <Label Text="To Dos:" FontSize="32" HorizontalOptions="Center"/>
+            <Entry x:Name="TodosEntry" Text="{Binding Text}" Placeholder="Enter Your Task" Margin="0,20,0,0"/>
+            <Button Text="Add Task" Command="{Binding AddCommand}" Margin="0,10,0,0"/>
+            <CollectionView ItemsSource="{Binding Items}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type x:String}">
+                        <Grid Padding="0.5">
+                            <Frame>
+                                <Grid ColumnDefinitions="*, Auto, Auto" VerticalOptions="Center" >
+                                    <Label Grid.Column="0" Text="{Binding .}" FontSize="16" TextColor="Black" VerticalOptions="Center"/>
+                                    <Button Grid.Column="2" Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}" CommandParameter="{Binding .}" Background="Red"/>
+                            </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
